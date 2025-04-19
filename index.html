@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body class="bg-[#f9f9f9] font-sans">
     <div class="flex flex-col md:flex-row min-h-screen">
@@ -57,20 +58,19 @@
           <input type="text" id="search" placeholder="Search..." class="rounded-md px-4 py-2 text-black w-full sm:w-auto" />
         </div>
         <div class="mt-4 absolute bg-white">
-            <h4 class="text-gray-800 font-semibold mb-2">Recent Searches</h4>
+            <!-- <h4 class="text-gray-800 font-semibold mb-2">Recent Searches</h4>
             <ul id="recentSearches" class="space-y-1 text-sm text-gray-600">
-              <!-- Searches will be injected here -->
                <li>delhi</li>
                <li>delhi</li>
             </ul>
-          </div>
+          </div> -->
           
         <!-- Today Overview -->
         <section class="mb-8">
             
           <h3 class="text-xl font-semibold mb-4 text-gray-800">Today Overview</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
+            <div id="current" class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
               <p>Wind Speed</p>
               <h4 class="text-xl font-bold">6 KM/H</h4>
             </div>
@@ -93,7 +93,21 @@
         <section>
           <h3 class="text-xl font-semibold mb-2 text-gray-800">Average Weekly Temperature</h3>
           <div class="w-full h-40 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500 text-center text-sm">
-            [Chart Placeholder]
+            <div id="forecast">
+                <table cellspacing="1" class="fadeIn" >
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Temprature</th>
+                            <th>Weather</th>
+                            <th>Humidity</th>
+                            <th>Clouds</th>
+                        </tr>
+                    </thead>
+                    <tbody id="add_row">
+
+                    </tbody>
+                </table>
           </div>
         </section>
       </main>
