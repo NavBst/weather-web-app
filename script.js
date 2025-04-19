@@ -1,39 +1,39 @@
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
     let date = new Date();
     const monthYear = date.toLocaleDateString("en-US", {
         year: "numeric",
         month: "long"
-      });
-      const fullDate = date.toLocaleDateString("en-US", {
+    });
+    const fullDate = date.toLocaleDateString("en-US", {
         weekday: "long",
         year: "numeric",
         month: "short",
         day: "numeric"
-      });
+    });
 
     //   setting current date and time 
-      const monYear = document.querySelector("main").firstElementChild.firstElementChild.firstElementChild;
-      monYear.innerHTML = monthYear;
-      monYear.nextElementSibling.innerHTML = fullDate;
+    const monYear = document.querySelector("main").firstElementChild.firstElementChild.firstElementChild;
+    monYear.innerHTML = monthYear;
+    monYear.nextElementSibling.innerHTML = fullDate;
 })
 
 // using current location...
-document.getElementById("currentLoc").addEventListener("click", ()=>{
+document.getElementById("currentLoc").addEventListener("click", () => {
     let latitude = "";
     let longitude = "";
-    
-        
-    navigator.geolocation.getCurrentPosition(async (position)=> {
+
+    // getting current location details
+    navigator.geolocation.getCurrentPosition(async (position) => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         const cityUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=45a49cb5d9d6624a599cbac7a29e86f5`;
-        const city = await fetch(cityUrl).then(res=>res.json()) 
+        const city = await fetch(cityUrl).then(res => res.json())
         fetchWeather(city.name)
-        }, (error)=>{
-            console.log(error)
-        });
-        
-       
+    }, (error) => {
+        console.log(error)
+    });
+
+
 })
 
 
@@ -68,34 +68,59 @@ const fetchWeather = async (city) => { // fetching weather details...
     }
 };
 
-fetchWeather("");
+fetchWeather(""); // for default... value at starting..
 
+// handling error using error dialogue box..
 function showError(error) {
     console.error("Error: " + error);
     let errorbox = document.getElementById("error");
-    // errorbox = 
+    errorbox.firstElementChild.lastElementChild.innerHTML = error;
+    errorbox.classList.remove("hidden");
+    let countDown = setInterval(() => {
+    }, 1000)
+    setTimeout(() => {
+        errorbox.classList.add("hidden");
+        countDown.clearInterval();
 
+    }, 4000)
 }
 
+// error dialogue box closing function
+document.querySelector("#error span").addEventListener("click", (e) => {
+    let errorbox = document.getElementById("error");
+    errorbox.classList.add("hidden");
+})
 
 // showing details.... 
 async function ShowDetails({ weatherData, forecastData }) {
+    const iconCode = weatherData.weather[0].icon;
+    console.log(iconCode)
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+
     let country = await fetch(`https://restcountries.com/v3.1/alpha/${weatherData.sys.country || "delhi"}`).then(res => res.json()).then((res => res));
     // console.log(country)
     const city = document.getElementById("city");
     city.innerHTML = `${weatherData.name}`;
     city.nextElementSibling.innerHTML = `${country[0].name.common}`;
+    city.nextElementSibling.innerHTML = `${country[0].name.common}`;
+
+    console.log(weatherData.weather)
+    const weather =  city.parentElement.nextElementSibling;
+
+    weather.lastElementChild.innerHTML = weatherData.weather[0].main;
+
+    weather.nextElementSibling.firstElementChild.src = iconUrl
 
     // temperature...
     const temp = Math.round((weatherData.main.temp) - 275.15);
     city.parentElement.nextElementSibling.firstElementChild.innerHTML = `${temp} &degC`
 
-    // sunset and sunrise
+    // sunset and sunrise..
 
     const sunriseTime = new Date((weatherData.sys.sunrise + weatherData.timezone) * 1000)
         .toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
 
-    const sunsetTime = new Date((weatherData.sys.sunset +  weatherData.timezone) * 1000)
+    const sunsetTime = new Date((weatherData.sys.sunset + weatherData.timezone) * 1000)
         .toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true });
 
     const sunrise = document.getElementById("sunrise");
@@ -125,13 +150,13 @@ async function ShowDetails({ weatherData, forecastData }) {
     const wind = document.getElementById("today");
     wind.lastElementChild.innerHTML = weatherData.wind.speed + " m/s";
 
-    let  humi = wind.nextElementSibling;
-    humi.lastElementChild.innerHTML = weatherData.main.humidity+"%";
+    let humi = wind.nextElementSibling;
+    humi.lastElementChild.innerHTML = weatherData.main.humidity + "%";
 
     let pressure = humi.nextElementSibling;
     pressure.lastElementChild.innerHTML = weatherData.main.pressure + " hPa";
 
-    pressure.nextElementSibling.lastElementChild.innerHTML = weatherData.visibility/1000 + " Km";
+    pressure.nextElementSibling.lastElementChild.innerHTML = weatherData.visibility / 1000 + " Km";
 }
 
 search.addEventListener("keypress", (e) => {
@@ -144,3 +169,53 @@ search.addEventListener("keypress", (e) => {
 
 
 
+//---------------------------------------------------
+
+
+// Function to update recent searches
+function updateRecents(city) {
+    if (!city) return;
+
+    let recents = JSON.parse(localStorage.getItem("recents")) || [];
+    if (!recents.includes(city)) {
+        recents.unshift(city); 
+        if (recents.length > 3) recents.pop(); // Keep only the last 3 cities
+        localStorage.setItem("recents", JSON.stringify(recents));
+    }
+    renderRecents();
+}
+
+// Function to render recent searches
+function renderRecents() {
+    const recentsContainer = document.getElementById("recents");
+    let recents = JSON.parse(localStorage.getItem("recents")) || [];
+    recentsContainer.innerHTML = recents
+        .map(city => `<li class="recent-item cursor-pointer hover:text-blue-500">${city}</li>`)
+        .join("");
+}
+
+// Event listener for clicking on recent cities
+document.getElementById("recents").addEventListener("click", (e) => {
+    if (e.target.classList.contains("recent-item")) {
+        const city = e.target.textContent;
+        fetchWeather(city);
+    }
+});
+
+// Event listener for clearing recent searches
+document.getElementById("clear-recents").addEventListener("click", () => {
+    localStorage.removeItem("recents");
+    renderRecents();
+});
+
+// Call updateRecents when fetching weather
+search.addEventListener("keypress", (e) => {
+    let city = e.target.value.trim(); 
+    if (e.which === 13 && city !== "") {
+        updateRecents(city); // Add to recents
+        fetchWeather(city);
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", renderRecents);

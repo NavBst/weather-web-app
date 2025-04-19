@@ -24,3 +24,65 @@ table td, table th{
 
     background-color: rgb(207, 228, 250);
 }
+
+.fadeIn{
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  /* kdjf0000000000000000000000000000000000000000000000 */
+
+  #recents-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#recents {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#recents li {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: color 0.2s ease-in-out;
+}
+
+#recents li:last-child {
+    border-bottom: none;
+}
+
+#recents li:hover {
+    color: #2563eb; /* Tailwind's blue-500 */
+}
+
+#clear-recents {
+    background: none;
+    border: none;
+    color: #ef4444; /* Tailwind's red-500 */
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: color 0.2s ease-in-out;
+}
+
+#clear-recents:hover {
+    color: #dc2626; /* Tailwind's red-600 */
+}
