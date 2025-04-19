@@ -6,8 +6,12 @@
     <title>Weather Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" >
   </head>
   <body class="bg-[#f9f9f9] font-sans">
+    <div class="z-99 w-[200px] h-[200px] bg-slate-200 absolute top-[50%] left-[50%] translate[-50%] rounded-lg shadow-lg p-4 " id="error">
+        <i class="fa-solid fa-xmark active:scale-[0.96] text-red-600"></i>
+    </div>
     <div class="flex flex-col md:flex-row min-h-screen">
       <!-- Sidebar -->
       <aside class="bg-gradient-to-b from-[#1f2937] to-[#111827] text-white p-6 w-full md:w-64">
@@ -23,23 +27,6 @@
           <p class="text-4xl">20°C</p>
           <p class="text-gray-300">Cloudy</p>
         </div>
-        <div class="mb-6">
-          <h3 class="font-semibold mb-2">Chance of Rain</h3>
-          <div class="text-sm space-y-1">
-            <div class="flex justify-between items-center">
-              <span>23:00</span><div class="w-1/2 bg-gray-700 h-2 rounded"><div class="bg-blue-400 h-2 w-1/5 rounded"></div></div><span>10%</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>00:00</span><div class="w-1/2 bg-gray-700 h-2 rounded"><div class="bg-blue-400 h-2 w-4/5 rounded"></div></div><span>70%</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>01:00</span><div class="w-1/2 bg-gray-700 h-2 rounded"><div class="bg-blue-400 h-2 w-1/4 rounded"></div></div><span>20%</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span>02:00</span><div class="w-1/2 bg-gray-700 h-2 rounded"><div class="bg-blue-400 h-2 w-1/2 rounded"></div></div><span>50%</span>
-            </div>
-          </div>
-        </div>
         <div>
           <h3 class="font-semibold mb-1" >Sunrise and Sunset</h3>
           <p class="text-sm" id="sunrise"></p>
@@ -52,10 +39,14 @@
         <!-- Search Bar and Date -->
         <div class="bg-[#1f2937] text-white rounded-lg p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 class="text-xl font-semibold">August 2023</h2>
+            <h2 class="text-xl font-semibold"></h2>
             <p class="text-sm"></p>
           </div>
-          <input type="text" id="search" placeholder="Search..." class="rounded-md px-4 py-2 text-black w-full sm:w-auto" />
+          <div class="flex justify-center items-center gap-4">
+            <input type="text" id="search" placeholder="Search..." class="rounded-md px-4 py-2 text-black w-full sm:w-auto" />
+            <span id="currentLoc" class="cursor-pointer active:scale-[0.95]">curent loca<i class="fa-solid fa-location-dot fs-[24px]"></i>ion</span>
+          </div>
+         
         </div>
         <div class="mt-4  bg-white">
             <!-- <h4 class="text-gray-800 font-semibold mb-2">Recent Searches</h4>
@@ -70,12 +61,12 @@
             
           <h3 class="text-xl font-semibold mb-4 text-gray-800">Today Overview</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div id="current" class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
+            <div id="today" class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
               <p>Wind Speed</p>
               <h4 class="text-xl font-bold">6 KM/H</h4>
             </div>
             <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
-              <p>Rain</p>
+              <p>Humidity</p>
               <h4 class="text-xl font-bold">24%</h4>
             </div>
             <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
@@ -83,7 +74,7 @@
               <h4 class="text-xl font-bold">720 HPA</h4>
             </div>
             <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-lg p-4">
-              <p>UV Index</p>
+              <p>Visiblily</p>
               <h4 class="text-xl font-bold">1,9</h4>
             </div>
           </div>
