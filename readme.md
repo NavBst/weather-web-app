@@ -40,3 +40,7 @@ A simple and responsive weather application built using **HTML**, **Tailwind CSS
    ```bash
    git clone https://github.com/your-username/weather-app.git
    cd weather-app
+
+## 💻 Deloymenet
+- Website Link:
+  [weather-app](https://6803c85a94fa976b13daa8ae--weather-web-app023.netlify.app/)
