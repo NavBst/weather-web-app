@@ -43,4 +43,4 @@ A simple and responsive weather application built using **HTML**, **Tailwind CSS
 
 ## 💻 Deloymenet
 - Website Link:
-  [weather-app](https://6803c85a94fa976b13daa8ae--weather-web-app023.netlify.app/)
+  [weather-app](https://nav-weath.netlify.app/)
