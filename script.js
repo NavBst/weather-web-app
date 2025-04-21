@@ -27,7 +27,7 @@ document.getElementById("currentLoc").addEventListener("click", () => {
     navigator.geolocation.getCurrentPosition(async (position) => {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
-        const cityUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=45a49cb5d9d6624a599cbac7a29e86f5`;
+        const cityUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`;
         const city = await fetch(cityUrl).then(res => res.json())
         fetchWeather(city.name)
     }, (error) => {
