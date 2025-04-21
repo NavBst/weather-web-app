@@ -10,9 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" >
   </head>
   <body class="bg-[#f9f9f9] font-sans">
-    <div class="z-99 w-[400px] h-[150px] bg-slate-200 absolute top-[30%] right-[30%] rounded-lg shadow-lg p-4  hidden" id="error">
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[400px] bg-slate-200 rounded-lg z-50 shadow-xl flex justify-center items-center text-xl font-semibold hidden" id="load">Loading....</div>
+    <div class="z-40 w-[400px] h-[150px] bg-slate-200 absolute top-[30%] right-[30%] rounded-lg shadow-lg p-4  hidden" id="error">
         <div class="relative w-full h-full">
-            <span class="fs-3 absolute top-4 right-4 cursor-pointer">X</span>
+            <span class="fs-3 absolute top-4 right-4 cursor-pointer"><i class="fa-solid fa-xmark"></i></span>
             <p class="text-red-700 font-bold w-full h-full flex justify-center items-center"></p>
         </div>
     </div>
@@ -24,7 +25,6 @@
         </div>
         <div class="mb-6 fadeIn">
           <h2 class="text-lg font-semibold" id="city"></h2>
-          <p class="text-sm text-gray-300"></p>
         </div>
         <div class="mb-6 fadeIn">
             <p class="text-4xl">20°C</p>
@@ -51,7 +51,7 @@
           </div>
           <div class="flex justify-center items-center gap-4">
             <input type="text" id="search" placeholder="Search..." class="rounded-md px-4 py-2 text-black w-full sm:w-auto" />
-            <span id="currentLoc" class="cursor-pointer active:scale-[0.95]">curent loca<i class="fa-solid fa-location-dot fs-[24px]"></i>ion</span>
+            <span id="currentLoc" class="cursor-pointer active:scale-[0.95] ring-2 p-2 rounded-md select-none">curent loca<i class="fa-solid fa-location-dot fs-[24px]"></i>ion</span>
           </div>
          
         </div>
