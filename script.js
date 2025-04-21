@@ -1,3 +1,4 @@
+const API_KEY = '45a49cb5d9d6624a599cbac7a29e86f5';
 document.addEventListener("DOMContentLoaded", () => {
     let date = new Date();
     const monthYear = date.toLocaleDateString("en-US", {
@@ -6,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const fullDate = date.toLocaleDateString("en-US", {
         weekday: "long",
-        year: "numeric",
+        year: "numeric", 
         month: "short",
         day: "numeric"
     });
@@ -41,9 +42,9 @@ document.getElementById("currentLoc").addEventListener("click", () => {
 const fetchWeather = async (city) => { // fetching weather details...
     city = city === "" ? "delhi" : city;
     try {
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=45a49cb5d9d6624a599cbac7a29e86f5`;
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=45a49cb5d9d6624a599cbac7a29e86f5`;
-
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}`;
+        document.querySelector("#load").classList.remove("hidden");
         const [weatherResponse, forecastResponse] = await Promise.all([
             fetch(weatherUrl),
             fetch(forecastUrl)
@@ -61,6 +62,7 @@ const fetchWeather = async (city) => { // fetching weather details...
 
         const weatherData = await weatherResponse.json();
         const forecastData = await forecastResponse.json();
+        document.querySelector("#load").classList.add("hidden");
         // console.log({ weatherData, forecastData })
         ShowDetails({ weatherData, forecastData });
     } catch (error) {
@@ -92,18 +94,14 @@ document.querySelector("#error span").addEventListener("click", (e) => {
 })
 
 // showing details.... 
-async function ShowDetails({ weatherData, forecastData }) {
+function ShowDetails({ weatherData, forecastData }) {
+    document.getElementById("search").value = "";
     const iconCode = weatherData.weather[0].icon;
     console.log(iconCode)
     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
 
-    let country = await fetch(`https://restcountries.com/v3.1/alpha/${weatherData.sys.country || "delhi"}`).then(res => res.json()).then((res => res));
-    // console.log(country)
     const city = document.getElementById("city");
     city.innerHTML = `${weatherData.name}`;
-    city.nextElementSibling.innerHTML = `${country[0].name.common}`;
-    city.nextElementSibling.innerHTML = `${country[0].name.common}`;
-
     console.log(weatherData.weather)
     const weather =  city.parentElement.nextElementSibling;
 
@@ -140,10 +138,10 @@ async function ShowDetails({ weatherData, forecastData }) {
         if (count <= 5)
             forecast.innerHTML += `<tr>
                     <td>${value.dt_txt.split(" ")[0]}</td>
-                    <td>${value.main.temp}</td>
+                    <td>${Math.round((value.main.temp-275.15))} &deg;C</td>
                     <td>${value.weather[0].main}</td>
-                    <td>${value.main.humidity}</td>
-                    <td>${value.clouds.all}</td>
+                    <td>${value.main.humidity}%</td>
+                    <td>${value.clouds.all}%</td>
                 </tr>`;
     })
 
