@@ -34,7 +34,7 @@ A simple and responsive weather application built using **HTML**, **Tailwind CSS
 
 ## 🔧 Installation
 1. Gihub link:
-    [to repo](https://github.com/NavBst/weather-web-app/tree/navneet)
+    [to repo](https://nav-weath.netlify.app/))
 2. Clone the repository:
     
    ```bash
